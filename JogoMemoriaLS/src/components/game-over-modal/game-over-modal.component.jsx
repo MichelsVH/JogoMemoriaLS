@@ -30,16 +30,6 @@ function GameOverModal({ isOpen, points = 0, onClose, winner = null, moves = 0, 
             <button onClick={onRestart}>Jogar Novamente</button>
           </div>
         </div>
-        {/* <div className="info" id="nickname">
-          Nick Name:
-          <input
-            type="text"
-            id="inputNick"
-            size="16"
-            placeholder="Introduza seu Nick"
-          />
-          <button id="okTop">ok</button>
-        </div> */}
         <footer>
           <p>
             <em>© Linguagens Script @ DEIS - ISEC</em>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../assets/styles/App.css";
 import "./game-panel.css";
-import Board from "./board.component";
-import Setup from "./setup.component";
+import Board from "../board/board.component";
+import Setup from "../setup/setup.component";
 
 const BOARD_SIZE = 10;
 const SHIP_SIZES = [5,4,3,3,2,2];
@@ -35,6 +35,14 @@ function GamePanel({ selectedLevel, gameStarted, onGameStart, onPoints, onGameOv
   const timerRef = useRef(null);
   const aiStateRef = useRef({});
   const messageTimerRef = useRef(null);
+
+  const sunkComputerShipIds = computerShips
+    .filter(ship => ship.positions.every(([rr,cc]) => computerGrid[rr][cc].hit))
+    .map(ship => ship.id);
+
+  const sunkPlayerShipIds = playerShips
+    .filter(ship => ship.positions.every(([rr,cc]) => playerGrid[rr][cc].hit))
+    .map(ship => ship.id);
 
   useEffect(()=>{
     // initialize on mount or when game restarts
@@ -394,11 +402,11 @@ function GamePanel({ selectedLevel, gameStarted, onGameStart, onPoints, onGameOv
       <div className="game-wrapper">
         <div className="board-column">
           <h4>Seu Tabuleiro</h4>
-          <Board grid={playerGrid} onCellClick={handleCellClick} showShips={true} radarArea={[]} onCellHover={handleCellHover} onCellHoverLeave={handleCellHoverLeave} hoverPreview={hoverPreview} disableInteraction={phase==='playing'} />
+          <Board grid={playerGrid} ships={playerShips} onCellClick={handleCellClick} showShips={true} radarArea={[]} onCellHover={handleCellHover} onCellHoverLeave={handleCellHoverLeave} hoverPreview={hoverPreview} disableInteraction={phase==='playing'} sunkShipIds={sunkPlayerShipIds} />
         </div>
         <div className="board-column">
           <h4>Tabuleiro do Computador</h4>
-          <Board grid={computerGrid} onCellClick={handleCellClick} showShips={(panelStatus && panelStatus.debugShowComputer)} radarArea={radarArea} onCellHover={handleCellHover} onCellHoverLeave={handleCellHoverLeave} hoverPreview={[]} disableInteraction={phase==='setup'} />
+          <Board grid={computerGrid} ships={computerShips} onCellClick={handleCellClick} showShips={(panelStatus && panelStatus.debugShowComputer)} radarArea={radarArea} onCellHover={handleCellHover} onCellHoverLeave={handleCellHoverLeave} hoverPreview={[]} disableInteraction={phase==='setup'} sunkShipIds={sunkComputerShipIds} />
           <div style={{marginTop:8}}>
             <button onClick={handleUseRadar} disabled={radarCount<=0}>Usar Radar</button>
           </div>

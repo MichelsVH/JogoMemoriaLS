@@ -44,16 +44,26 @@
   align-items: center;
 }
 .board {
+  position: relative;
   display: inline-block;
   border: 3px solid #0066cc;
   padding: 6px;
-  background: #d0e8f2;
+  background: url('/assets/images/Tabuleiro.png') center center / cover no-repeat;
   margin: 0 auto;
 }
 .board-row {
   display: flex;
 }
+.ship-overlay {
+  position: absolute;
+  z-index: 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
 .cell {
+  position: relative;
+  z-index: 1;
   width: 28px;
   height: 28px;
   border: 1px solid #0066cc;
@@ -62,12 +72,21 @@
   justify-content: center;
   font-size: 12px;
   color: #333;
-  background: #cce5ff;
+  background: rgba(204,229,255,0.8);
   cursor: pointer;
 }
-.cell.hit { background: #ff4444; }
-.cell.miss { background: #6699ff; }
-.cell.ship { background: #ffaa44; border: 1px solid #ff8800; }
+.cell.hit { background: #ff4444 url('/assets/images/hit.png') center center / 18px no-repeat; color: #fff; }
+.cell.miss { background: #6699ff url('/assets/images/miss.png') center center / 18px no-repeat; color: #fff; }
+.cell.ship-sunk { background: #8b0000 url('/assets/images/hit.png') center center / 18px no-repeat; border: 1px solid #660000; color: #fff; }
+.cell.ship { background: transparent; border: 1px solid rgba(255,136,0,0.4); }
+.ship-overlay {
+  position: absolute;
+  z-index: 1;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+.cell { z-index: 2; }
 .cell.highlight { box-shadow: inset 0 0 0 2px gold; }
 .cell.preview { background: #ffcc99; opacity: 0.8; }
 .cell.disabled { cursor: not-allowed; opacity: 0.6; }
